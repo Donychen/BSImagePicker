@@ -26,6 +26,16 @@ import UIKit
 class DropdownPresentationController: UIPresentationController {
     private let dropDownHeight: CGFloat = 200
     private let backgroundView = UIView()
+    private weak var source: UIViewController?
+    
+    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController) {
+        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+        
+        self.source = source
+        backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        backgroundView.backgroundColor = .clear
+        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:))))
+    }
     
     override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
@@ -62,7 +72,7 @@ class DropdownPresentationController: UIPresentationController {
                           withParentContainerSize: presentingView.bounds.size)
 
         let position: CGPoint
-        if let navigationBar = (presentingViewController as? UINavigationController)?.navigationBar {
+        if let navigationBar = (source as? UINavigationController)?.navigationBar {
             // We can't use the frame directly since iOS 13 new modal presentation style
             let navigationRect = navigationBar.convert(navigationBar.bounds, to: nil)
             let presentingRect = presentingView.convert(presentingView.frame, to: containerView)
