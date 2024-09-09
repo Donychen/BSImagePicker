@@ -32,14 +32,16 @@ class DropdownPresentationController: UIPresentationController {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         
         self.source = source
-        backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        backgroundView.backgroundColor = .clear
-        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:))))
+        setupBackgroundView()
     }
     
     override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         
+        self.setupBackgroundView()
+    }
+    
+    private func setupBackgroundView() {
         backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundView.backgroundColor = .clear
         backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:))))
